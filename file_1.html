@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+		crossorigin="anonymous"></script>
+</head>
+
+<body>
+	<h1 class="mt-3 mb-3">Biodata</h1>
+	<table>
+		<tr>
+			<td><label for="photo">Photo:</label></td>
+			<!-- <td><img src="" alt="Show Image"></td> -->
+			<td><input type="file" class="form-control-file" id="photo" accept=".jpg, .jpeg, .png"></td>
+		</tr>
+		<tr>
+			<td><label for="">Name : </label></td>
+			<td><input type="text" class="form-control" id="name" placeholder="Enter name"></td>
+		</tr>
+		<tr>
+			<td><label for="">Email : </label></td>
+			<td><input type="email" class="form-control" id="email" placeholder="Enter email"></td>
+		</tr>
+		<tr>
+			<td><label for="age">Age:</label></td>
+			<td><input type="number" class="form-control" id="age" placeholder="Enter age"></td>
+		</tr>
+		<tr>
+			<td><label for="dob">DOB:</label></td>
+			<td><input type="date" class="form-control" id="dob"></td>
+		</tr>
+		<tr>
+			<td><label for="address">Address:</label></td>
+			<td><textarea class="form-control" id="address" rows="3" placeholder="Enter address"></textarea></td>
+		</tr>
+		<tr>
+			<td><label for="qualifications">Qualifications:</label></td>
+			<td><textarea class="form-control" id="qualifications" rows="3"
+					placeholder="Enter qualifications"></textarea></td>
+		</tr>
+		<tr>
+			<td><label for="gender">Gender:</label></td>
+			<td><input class="form-check-input" type="radio" name="gender" id="male" value="male">
+				<label class="form-check-label" for="male">Male</label>
+
+				<input class="form-check-input" type="radio" name="gender" id="female" value="female">
+				<label class="form-check-label" for="female">Female</label>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<button type="submit" onclick="saveTask()" id="save" class="btn btn-primary">Save</button>
+			</td>
+		</tr>
+
+	</table>
+
+	<br><br>
+	<table class="table table-bordered table-primary" id="table_task">
+		<tr>
+			<td>photo</td>
+			<td>Name</td>
+			<td>Email</td>
+			<td>Age</td>
+			<td>DOB</td>
+			<td>Address</td>
+			<td>Qualification</td>
+			<td>Gender</td>
+			<td>Action</td>
+		</tr>
+	</table>
+
+	<div class="modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Modal</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<table>
+						<!-- <tr>
+							<td><label for="photo">Photo:</label></td>
+							<td><input type="file" class="form-control-file" id="edt_photo" accept="image/*"></td>
+						</tr> -->
+						<tr>
+							<td><label for="">Name : </label></td>
+							<td><input type="text" class="form-control" id="edt_name" placeholder="Enter name"></td>
+						</tr>
+						<tr>
+							<td><label for="">Email : </label></td>
+							<td><input type="email" class="form-control" id="edt_email" placeholder="Enter email"></td>
+						</tr>
+						<tr>
+							<td><label for="age">Age:</label></td>
+							<td><input type="number" class="form-control" id="edt_age" placeholder="Enter age"></td>
+						</tr>
+						<tr>
+							<td><label for="dob">DOB:</label></td>
+							<td><input type="date" class="form-control" id="edt_dob"></td>
+						</tr>
+						<tr>
+							<td><label for="address">Address:</label></td>
+							<td><textarea class="form-control" id="edt_address" rows="3"
+									placeholder="Enter address"></textarea></td>
+						</tr>
+						<tr>
+							<td><label for="qualifications">Qualifications:</label></td>
+							<td><textarea class="form-control" id="edt_qualifications" rows="3"
+									placeholder="Enter qualifications"></textarea></td>
+						</tr>
+						<!-- <tr>
+							<td><label for="gender">Gender:</label></td>
+							<td><input class="form-check-input" type="radio" name="gender" id="male" value="male">
+								<label class="form-check-label" for="male">Male</label>
+
+								<input class="form-check-input" type="radio" name="gender" id="female" value="female">
+								<label class="form-check-label" for="female">Female</label>
+							</td>
+						</tr> -->
+						<tr>
+							<td><button type="submit" onclick="updateTask()" id="update"
+									class="btn btn-primary">update</button></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		var currentTr
+
+		var toDoTb = document.getElementById("table_task")
+		function saveTask() {
+			var photoTxt = document.getElementById("photo")
+			var nameTxt = document.getElementById("name")
+			var emailTxt = document.getElementById("email")
+			var ageTxt = document.getElementById("age")
+			var dobTxt = document.getElementById("dob")
+			var addressTxt = document.getElementById("address")
+			var qualificationTxt = document.getElementById("qualifications")
+			var genderVal = document.querySelector("input[name='gender']:checked");
+			var genderValue = genderVal ? genderVal.value : null;
+
+
+
+			var toDoTb = document.getElementById("table_task")
+
+			var newTr = document.createElement("tr")
+
+			var tdPhoto = document.createElement("td")
+			var tdName = document.createElement("td")
+			var tdEmail = document.createElement("td")
+			var tdAge = document.createElement("td")
+			var tdDob = document.createElement("td")
+			var tdAddress = document.createElement("td")
+			var tdQualification = document.createElement("td")
+			var tdGender = document.createElement("td")
+			var tdAction = document.createElement("td")
+			var commonImagePath = "image1.png"
+			var image = document.createElement("img")
+
+			image.setAttribute('src','images/image1.png')
+			var image 
+
+			tdPhoto.appendChild(image)
+
+			tdName.innerHTML = nameTxt.value
+			tdEmail.innerHTML = emailTxt.value
+			tdAge.innerHTML = ageTxt.value
+			tdDob.innerHTML = dobTxt.value
+			tdAddress.innerHTML = addressTxt.value
+			tdQualification.innerHTML = qualificationTxt.value
+			tdGender.innerHTML = genderValue;
+			tdAction.innerHTML = "<button onclick='editTask()' type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#exampleModal'>EDIT</button>  <button onclick='deleteTask()' class='btn btn-primary'>DELETE</button>"
+
+			newTr.appendChild(tdPhoto)
+			newTr.appendChild(tdName)
+			newTr.appendChild(tdEmail)
+			newTr.appendChild(tdAge)
+			newTr.appendChild(tdDob)
+			newTr.appendChild(tdAddress)
+			newTr.appendChild(tdQualification)
+			newTr.appendChild(tdGender)
+			newTr.appendChild(tdAction)
+
+			toDoTb.appendChild(newTr)
+
+			nameTxt.value = ""
+			emailTxt.value = ""
+			ageTxt.value = ""
+			dobTxt.value = ""
+			addressTxt.value = ""
+			qualificationTxt.value = ""
+			// genderValue.value = ""
+
+		}
+		function editTask() {
+			// console.log("REACHED");
+			var selectedRow = event.target.parentNode.parentNode
+			document.getElementById("edt_name").value = selectedRow.children[1].innerHTML
+			document.getElementById("edt_email").value = selectedRow.children[2].innerHTML
+			document.getElementById("edt_age").value = selectedRow.children[3].innerHTML
+			document.getElementById("edt_dob").value = selectedRow.children[4].innerHTML
+			document.getElementById("edt_address").value = selectedRow.children[5].innerHTML
+			document.getElementById("edt_qualifications").value = selectedRow.children[6].innerHTML
+			// document.getElementById("gender").value = selectedRow.children[7].innerHTML
+			currentTr = selectedRow
+
+
+		}
+		function deleteTask() {
+			var dele = document.getElementById("table_task")
+			var selectedRow = event.target.parentNode.parentNode
+			dele.deleteRow(selectedRow.rowIndex)
+			// for (let i = 0; i < dele.rows.length; i++) {
+			// 	dele.rows[i + 1].cells[0].innerHTML = i + 1
+			// }
+		}
+		function updateTask() {
+			var newName = document.getElementById("edt_name").value
+			currentTr.children[1].innerHTML = newName
+
+
+			var newEmail = document.getElementById("edt_email").value
+			currentTr.children[2].innerHTML = newEmail
+
+			var newAge = document.getElementById("edt_age").value
+			currentTr.children[3].innerHTML = newAge
+
+			var newDob = document.getElementById("edt_dob").value
+			currentTr.children[4].innerHTML = newDob
+
+			var newAddress = document.getElementById("edt_address").value
+			currentTr.children[5].innerHTML = newAddress
+
+			var newQualification = document.getElementById("edt_qualifications").value
+			currentTr.children[6].innerHTML = newQualification
+
+			// var newGender = document.getElementById("edt_gender").value
+			// currentTr.children[7].innerHTML = newGender
+
+		}
+
+
+	</script>
+</body>
+
+</html>

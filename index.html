@@ -166,12 +166,14 @@
 			var tdQualification = document.createElement("td")
 			var tdGender = document.createElement("td")
 			var tdAction = document.createElement("td")
-			var commonImagePath = "image1.png"
 			var image = document.createElement("img")
-
-			image.setAttribute('src','images/image1.png')
-			var image 
-
+			var path = photoTxt.value;
+			var filename = 'images/' + path.replace(/^.*\\/, "");
+			console.log(filename);
+			console.log(photoTxt.value)
+			image.setAttribute('src',filename)
+			
+			
 			tdPhoto.appendChild(image)
 
 			tdName.innerHTML = nameTxt.value
